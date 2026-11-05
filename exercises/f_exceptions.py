@@ -1,19 +1,45 @@
 """Part F — try / except.
 
-Run:  python run_lab.py f
+═══════════════════════════════════════════════════════════════════════
+  HOW TO WORK THIS FILE
+  1. F1: predict exception names on paper, THEN run.
+  2. F2: fix get_len — one specific `except`, not bare.
+  3. F3: implement f() to a written spec.
+  4. F4: write one sentence about why bare except is dangerous.
+  Run:  python3 -m pytest -v tests/test_f_exceptions.py
+═══════════════════════════════════════════════════════════════════════
+
+KEY RULE:
+    except:                  ← catches EVERYTHING (including typos)
+    except Exception:        ← also too broad
+    except ValueError:       ← correct: one specific exception
+    except (ValueError, KeyError):  ← correct: multiple specific ones
 """
 
-# ---- F1 — name the exception (do not run first) --------------------
+# ════════════════════════════════════════════════════════════════════════
+# F1 — name the exception
+# ════════════════════════════════════════════════════════════════════════
+# For each expression below, predict which exception class gets raised.
+# Fill in the PREDICTION_F1 dict with the EXCEPTION CLASS NAME, as a
+# string (e.g. "ValueError", "IndexError", ...). Do NOT run first.
+#
+#   int("abc")              →  ?
+#   [1, 2][5]               →  ?
+#   {"a": 1}["b"]           →  ?
+#   10 / 0                  →  ?
+#   "a" + 1                 →  ?
+#
 PREDICTION_F1: dict[str, str] = {
-    "int_abc": "",   # int("abc")
-    "index": "",     # [1, 2][5]
-    "key": "",       # {"a": 1}["b"]
-    "zero": "",      # 10 / 0
-    "add": "",       # "a" + 1
+    "int_abc": "",
+    "index": "",
+    "key": "",
+    "zero": "",
+    "add": "",
 }
 
 
 def f1_run() -> dict[str, str]:
+    """GIVEN. Do not modify. Returns the actual exception names."""
     out: dict[str, str] = {}
     try:
         int("abc")
@@ -38,34 +64,107 @@ def f1_run() -> dict[str, str]:
     return out
 
 
-# ---- F2 — fix get_len ---------------------------------------------
+# ════════════════════════════════════════════════════════════════════════
+# F2 — fix get_len
+# ════════════════════════════════════════════════════════════════════════
+# The B-part get_len is back, and this time the tests are stricter:
+# it must catch ONLY the exception len() raises for an unsized object.
+#
 def get_len(obj) -> int:
-    """Return len(obj) for any sized object, else 0.
+    """Return len(obj) for anything sized, else 0.
 
-    get_len([1, 2, 3]) -> 3
-    get_len(42)        -> 0
+    WHAT TO DO:
+        Fix it. Use len(), not .size (that's not a Python list attr).
+        Wrap the len() call in try/except, catching exactly ONE
+        exception type.
 
-    Rule: catch ONLY the exception that len() can raise for a bad type.
+    EXAMPLES:
+        get_len([1, 2, 3])  →  3
+        get_len("abc")      →  3
+        get_len([])         →  0
+        get_len(42)         →  0
+        get_len(None)       →  0
+
+    CONSTRAINTS:
+        • Do NOT use bare `except:`.
+        • Do NOT use `except Exception`.
+        • Name the specific exception type that len() raises when
+          called on a non-sized object.
+
+    HINT: what exception does len(42) raise? Try it in a REPL:
+          >>> len(42)
+
+    RUN THIS:  python3 -m pytest -v tests/test_f_exceptions.py -k get_len
     """
-    # TODO
     raise NotImplementedError
 
 
-# ---- F3 — write f() from the spec ---------------------------------
+# ════════════════════════════════════════════════════════════════════════
+# F3 — implement f() to a written spec
+# ════════════════════════════════════════════════════════════════════════
 def f(x):
-    """Return 10 / x, but with this exact behavior:
+    """Return 10 / x, with careful try/except/else/finally behavior.
 
-    - on ZeroDivisionError: print "caught" and return -1
-    - otherwise:            print "no error" and return the result
-    - in ALL cases:         print "cleanup" as the very last thing
+    WHAT TO DO:
+        Implement this function so that:
 
-    Use try / except / else / finally — no bare except.
+        • On ZeroDivisionError:
+            print "caught"
+            return -1
+
+        • Otherwise (no exception):
+            print "no error"
+            return the division result (10 / x)
+
+        • In ALL cases (success OR failure):
+            print "cleanup" as the LAST thing that happens
+
+    MUST USE:
+        try, except, else, finally — no bare except.
+
+    WHY `else` AND `finally`:
+        `else` runs only if the try block succeeded — it's where you
+        put code that should NOT trigger the except path.
+        `finally` runs whether or not anything failed — good for
+        cleanup, closing files, releasing locks. It runs even after
+        a `return`.
+
+    EXAMPLES (expected stdout, then return value):
+        f(2)  → prints "no error" then "cleanup", returns 5.0
+        f(0)  → prints "caught"   then "cleanup", returns -1
+
+    WHAT THE TESTS CHECK:
+        Exact printed output. Exact return value. Order matters.
+        "caught\ncleanup\n" and "no error\ncleanup\n" — nothing more,
+        nothing less, nothing reordered.
+
+    RUN THIS:  python3 -m pytest -v tests/test_f_exceptions.py -k "f3 or f_success or f_zero"
     """
-    # TODO
     raise NotImplementedError
 
 
-# ---- F4 — answer in a string --------------------------------------
+# ════════════════════════════════════════════════════════════════════════
+# F4 — why bare except is dangerous (written answer)
+# ════════════════════════════════════════════════════════════════════════
+# WHAT TO DO:
+#   In one or two sentences, name a CONCRETE bug that a bare
+#   `except:` would silently hide inside a function like parts_sums.
+#
+#   Not graded by pytest — write it for your own learning. Something
+#   like "a typo in a variable name raises NameError, which a bare
+#   except would swallow and turn into a silent wrong return."
+#
 F4_WHY_BARE_EXCEPT_IS_BAD = ""
-# <-- Name one concrete bug a bare `except:` would silently hide
-#     inside a function like parts_sums.
+
+
+# ════════════════════════════════════════════════════════════════════════
+# SELF-CHECK before running pytest
+# ════════════════════════════════════════════════════════════════════════
+# [ ] I filled PREDICTION_F1 WITHOUT running f1_run first.
+# [ ] get_len catches exactly one specific exception.
+# [ ] f() uses try/except/else/finally — no bare except.
+# [ ] My f() returns float on success (10 / 2 → 5.0, not 5).
+# [ ] "cleanup" prints LAST in BOTH cases (success and failure).
+# [ ] I wrote F4_WHY_BARE_EXCEPT_IS_BAD as a real sentence.
+# [ ] I have NOT run pytest yet. Do that now.
+# ════════════════════════════════════════════════════════════════════════
