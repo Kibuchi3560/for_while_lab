@@ -24,7 +24,7 @@ THE RULE:
 # D1 — append a list
 # ════════════════════════════════════════════════════════════════════════
 # Predict the return value of d1_run() below. The result is a list.
-PREDICTION_D1: list = []
+PREDICTION_D1: list = [1, [2, 3]]
 
 
 def d1_run():
@@ -38,7 +38,7 @@ def d1_run():
 # D2 — extend with a list
 # ════════════════════════════════════════════════════════════════════════
 # Predict the return value of d2_run() below.
-PREDICTION_D2: list = []
+PREDICTION_D2: list = [1, 2, 3]
 
 
 def d2_run():
@@ -53,7 +53,7 @@ def d2_run():
 # ════════════════════════════════════════════════════════════════════════
 # Predict whether d3_run() returns "ok" or "error".
 #   Set PREDICTION_D3 to the literal string  "ok"  or  "error"
-PREDICTION_D3 = ""
+PREDICTION_D3 = "error"
 
 
 def d3_run():
@@ -71,7 +71,7 @@ def d3_run():
 # ════════════════════════════════════════════════════════════════════════
 # Predict the return value of d4_run() below.
 #   Reminder: "ab" is a string — an iterable of characters.
-PREDICTION_D4: list = []
+PREDICTION_D4: list = [5, 'a', 'b']
 
 
 def d4_run():
@@ -105,7 +105,11 @@ def fix_double_all_append(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_d_append_extend.py -k append
     """
-    raise NotImplementedError
+    mult = []
+    for x in ls:
+        mult.append(x * 2)
+    return mult
+    
 
 
 def fix_double_all_extend(ls: list[int]) -> list[int]:
@@ -128,6 +132,10 @@ def fix_double_all_extend(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_d_append_extend.py -k extend
     """
+    mult = []
+    for x in ls:
+        mult.extend([x * 2])
+    return mult
     raise NotImplementedError
 
 
