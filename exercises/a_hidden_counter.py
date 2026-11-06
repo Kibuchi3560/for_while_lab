@@ -41,7 +41,7 @@ RIGHT. The two can cross and skip elements. This part makes that real.
 # NOTE: the function returns what it "prints" instead of printing, so
 #       the tests can compare. The behavior is identical.
 #
-PREDICTION_A1: list[int] = []   # ← your prediction goes here
+PREDICTION_A1: list[int] = [1, 3, 5]   # ← your prediction goes here
 
 
 def a1_run() -> list[int]:
@@ -72,7 +72,7 @@ def a1_run() -> list[int]:
 #   element get skipped? If not, why not? (Answer in your head; A2 is
 #   about noticing that not every mutation breaks a loop.)
 #
-PREDICTION_A2: list[int] = []   # ← your prediction goes here
+PREDICTION_A2: list[int] = [1, 2, 4]   # ← your prediction goes here
 
 
 def a2_run() -> list[int]:
@@ -101,8 +101,8 @@ def a2_run() -> list[int]:
 #   Question 2: in ONE sentence, WHY? (Set WHY_A3 — not graded, but
 #       write it; it's the lesson of the part.)
 #
-PREDICTION_A3 = ""   # ← "finite" or "infinite"
-WHY_A3 = ""          # ← one sentence
+PREDICTION_A3 = "infinite"   # ← "finite" or "infinite"
+WHY_A3 = "The loop will never terminate because elements are continuously added to the list, causing the loop to keep iterating."          # ← one sentence
 
 
 # ════════════════════════════════════════════════════════════════════════
@@ -141,6 +141,11 @@ WHY_A3 = ""          # ← one sentence
 def a4_hidden_loop(ls: list[int]) -> list[int]:
     """Return the values the mutating for-loop from A1 would produce."""
     out: list[int] = []
+    counter = 0
+    while counter < len(ls):
+        out.append(ls[counter])
+        ls.pop(0)
+        counter += 1
     # TODO:
     #   _counter = 0
     #   while _counter < len(ls):
