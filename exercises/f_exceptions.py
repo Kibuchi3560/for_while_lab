@@ -30,11 +30,11 @@ KEY RULE:
 #   "a" + 1                 →  ?
 #
 PREDICTION_F1: dict[str, str] = {
-    "int_abc": "",
-    "index": "",
-    "key": "",
-    "zero": "",
-    "add": "",
+    "int_abc": "ValueError",
+    "index": "IndexError",
+    "key": "KeyError",
+    "zero": "ZeroDivisionError",
+    "add": "TypeError",
 }
 
 
@@ -96,6 +96,10 @@ def get_len(obj) -> int:
 
     RUN THIS:  python3 -m pytest -v tests/test_f_exceptions.py -k get_len
     """
+    try:
+        return len(obj)
+    except TypeError:
+        return 0
     raise NotImplementedError
 
 
@@ -140,6 +144,16 @@ def f(x):
 
     RUN THIS:  python3 -m pytest -v tests/test_f_exceptions.py -k "f3 or f_success or f_zero"
     """
+    try:
+        result = 10 / x
+    except ZeroDivisionError:       
+        print("caught")
+        return -1
+    else:
+        print("no error")
+        return result
+    finally:
+        print("cleanup")      
     raise NotImplementedError
 
 
@@ -154,7 +168,7 @@ def f(x):
 #   like "a typo in a variable name raises NameError, which a bare
 #   except would swallow and turn into a silent wrong return."
 #
-F4_WHY_BARE_EXCEPT_IS_BAD = ""
+F4_WHY_BARE_EXCEPT_IS_BAD = " A bare except can catch unexpected exceptions, such as typos or logic errors, which can lead to silent failures and make debugging difficult."
 
 
 # ════════════════════════════════════════════════════════════════════════
