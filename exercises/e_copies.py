@@ -35,12 +35,12 @@ in both copies.
 # The *_IS_* fields use `is` (identity), the _EQ_ field uses `==`
 # (value equality). They can disagree — that's the lesson.
 #
-PREDICTION_E1_A: list = []
-PREDICTION_E1_C: list = []
-PREDICTION_E1_D: list = []
-PREDICTION_E1_A_IS_B = None    # ← True / False
-PREDICTION_E1_A_IS_C = None
-PREDICTION_E1_C_EQ_A = None
+PREDICTION_E1_A: list = [1, 2, 3, 99]
+PREDICTION_E1_C: list = [1, 2, 3]
+PREDICTION_E1_D: list = [1, 2, 3]
+PREDICTION_E1_A_IS_B = True     # ← True / False
+PREDICTION_E1_A_IS_C = False    # ← True / False
+PREDICTION_E1_C_EQ_A = False
 
 
 def e1_run() -> dict:
@@ -69,7 +69,7 @@ def e1_run() -> dict:
 # Predict what `outer` looks like when e2_run() returns.
 #
 # HINT: this is exactly why `ls[:]` only protects you at ONE level.
-PREDICTION_E2: list = []
+PREDICTION_E2: list = [[1, 2, 99], [1, 2, 99]]
 
 
 def e2_run() -> list:
@@ -114,6 +114,17 @@ def parts_sums_safe(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_e_copies.py -k parts_sums_safe
     """
+    sums = []
+    ls_copy = ls[:]
+    count = 0
+    while count < len(ls):
+        sums.append(sum(ls_copy))
+        ls_copy.pop(0)
+        count += 1
+    else:
+        sums.append(0)
+    return sums
+
     raise NotImplementedError
 
 
