@@ -40,6 +40,17 @@ def parts_sums_reverse(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_g_capstone.py -k reverse
     """
+    ls_copy = ls[:]
+    sums = []
+    count = 0
+    while count < len(ls):
+        sums.append(sum(ls_copy))
+        ls_copy.pop(-1)
+        count += 1
+    else:
+        sums.append(0)
+    return sums
+      
     raise NotImplementedError
 
 
@@ -77,6 +88,19 @@ def parts_products(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_g_capstone.py -k products
     """
+    out = []
+    ls_copy = ls[:]
+    count = 0
+    while count < len(ls):
+        product = 1
+        for x in ls_copy:
+            product *= x
+        out.append(product)
+        ls_copy.pop(0)
+        count += 1
+    else:
+        out.append(1)
+    return out
     raise NotImplementedError
 
 
@@ -107,6 +131,12 @@ def running_max(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_g_capstone.py -k running_max
     """
+    out = []
+    current_max = float('-inf')
+    for x in ls:
+        current_max = max(current_max, x)
+        out.append(current_max)
+    return out  
     raise NotImplementedError
 
 
@@ -128,6 +158,17 @@ def remaining_counts_while(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_g_capstone.py -k "while"
     """
+    counts = []
+    ls_copy = ls[:]
+    count = 0
+    while count < len(ls):
+        counts.append(len(ls_copy))
+        ls_copy.pop(0)
+        count += 1
+    else:
+        counts.append(0)
+    return counts   
+
     raise NotImplementedError
 
 
@@ -154,6 +195,7 @@ def remaining_counts_math(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_g_capstone.py -k "math"
     """
+    return [len(ls) - i for i in range(len(ls) + 1)]
     raise NotImplementedError
 
 
