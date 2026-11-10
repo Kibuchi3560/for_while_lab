@@ -57,6 +57,13 @@ def parts_sums_for(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_c_three_ways.py -k parts_sums_for
     """
+    n = sum(ls)          # compute total once
+    out = [n]            # seed the result with the total
+    for x in ls:
+        n -= x           # running total goes DOWN
+        out.append(n)
+    return out
+    
     raise NotImplementedError
 
 
@@ -95,6 +102,14 @@ def parts_sums_while_pop(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_c_three_ways.py -k while_pop
     """
+    new_ls = ls[:]       # copy so the caller's list is untouched
+    out = []
+    while True:
+        out.append(sum(new_ls))
+        if not new_ls:
+            break
+        new_ls.pop(0)
+    return out
     raise NotImplementedError
 
 
@@ -124,6 +139,12 @@ def parts_sums_while_index(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_c_three_ways.py -k while_index
     """
+    out = []
+    i = 0
+    while i <= len(ls):          # <=, so we reach the empty slice (sum 0)
+        out.append(sum(ls[i:]))  # slice is a fresh list, so ls is never mutated
+        i += 1
+    return out
     raise NotImplementedError
 
 
