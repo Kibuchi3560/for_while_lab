@@ -88,19 +88,19 @@ def parts_products(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_g_capstone.py -k products
     """
-    out = []
-    ls_copy = ls[:]
-    count = 0
-    while count < len(ls):
-        product = 1
-        for x in ls_copy:
-            product *= x
-        out.append(product)
-        ls_copy.pop(0)
-        count += 1
+    li = ls[:]
+    products = []
+
+    while len(li) > 0:
+        p = 1
+        for x in li:
+            p *= x
+        products.append(p)
+        li.pop(0)
     else:
-        out.append(1)
-    return out
+        products.append(1)
+    return products
+    
     raise NotImplementedError
 
 
@@ -131,12 +131,14 @@ def running_max(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_g_capstone.py -k running_max
     """
-    out = []
-    current_max = float('-inf')
+    one_by_one = []
+    maximum = []
+    
     for x in ls:
-        current_max = max(current_max, x)
-        out.append(current_max)
-    return out  
+        one_by_one.append(x)
+        maximum.append(max(one_by_one))
+    return maximum
+
     raise NotImplementedError
 
 
@@ -158,17 +160,17 @@ def remaining_counts_while(ls: list[int]) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_g_capstone.py -k "while"
     """
-    counts = []
-    ls_copy = ls[:]
+    counter = []
+    list_alt = ls[:]
     count = 0
-    while count < len(ls):
-        counts.append(len(ls_copy))
-        ls_copy.pop(0)
-        count += 1
-    else:
-        counts.append(0)
-    return counts   
 
+    while count< len(ls):
+        counter.append(len(list_alt))
+        count += 1
+        list_alt.pop(0)
+    else:
+        counter.append(0)
+    return counter
     raise NotImplementedError
 
 
