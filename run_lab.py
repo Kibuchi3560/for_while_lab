@@ -15,6 +15,7 @@ PARTS = {
     "e": "tests/test_e_copies.py",
     "f": "tests/test_f_exceptions.py",
     "g": "tests/test_g_capstone.py",
+    "h": "tests/test_h_hard.py", 
 }
 
 

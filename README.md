@@ -25,6 +25,7 @@ Tests are red on purpose. Fix the code in `exercises/`, not `tests/`.
 | E | `a = b` vs `a = b[:]` vs shallow copy |
 | F | Specific `except`, `else`, `finally` |
 | G | Capstone: same shape, new problems |
+| H | **Hard/super-hard challenges** (bug fix, algorithm, recursion) |
 
 ## Definition of done
 
