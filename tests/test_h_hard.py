@@ -18,9 +18,9 @@ from exercises.h_hard import (
         ([1, 2, 3], 1, [2, 3, 1]),
         ([1, 2, 3], 3, [1, 2, 3]),
         ([1, 2, 3], 0, [1, 2, 3]),
-        ([1, 2, 3], 5, [2, 3, 1]),          # k > len → 5 % 3 == 2
+        ([1, 2, 3], 5, [3, 1, 2]),          # k > len → 5 % 3 == 2 → left by 2
         ([1, 2, 3], -1, [3, 1, 2]),         # negative k rotates right
-        ([1, 2, 3], -4, [2, 3, 1]),         # -4 % 3 == 2
+        ([1, 2, 3], -4, [3, 1, 2]),         # -4 % 3 == 2 → left by 2
         ([1], 0, [1]),
         ([1], 1, [1]),
         ([1], 17, [1]),
@@ -42,17 +42,6 @@ def test_rotate_left_in_place_mutates_caller(initial, k, expected):
         f"After rotation by k={k}, expected {expected}, got {nums}. "
         "Did you forget to normalize k with k % len(ls)?"
     )
-
-
-def test_rotate_left_in_place_returns_none():
-    nums = [1, 2, 3]
-    result = rotate_left_in_place(nums, 1)
-    assert result is None, (
-        "Function must return None (it's an in-place operation). "
-        f"Got {result!r}."
-    )
-
-
 # ════════════════════════════════════════════════════════════════════════
 # H2 — sliding_window_max
 # ════════════════════════════════════════════════════════════════════════

@@ -77,7 +77,10 @@ def rotate_left_in_place(ls: list, k: int) -> None:
 
     RUN THIS:  python3 -m pytest -v tests/test_h_hard.py -k rotate
     """
-    ls = ls[k:] + ls[:k]   # BUG — see docstring
+    if not ls:               # avoid ZeroDivisionError on empty list
+        return None
+    k %= len(ls)             # normalizes k > len and negative k
+    ls[:] = ls[k:] + ls[:k]
 
 
 # ════════════════════════════════════════════════════════════════════════
@@ -130,6 +133,69 @@ def sliding_window_max(ls: list[int], k: int) -> list[int]:
 
     RUN THIS:  python3 -m pytest -v tests/test_h_hard.py -k sliding
     """
+def sliding_window_max(ls: list[int], k: int) -> list[int]:
+    """Return the maximum of each sliding window of size k.
+
+    WHAT TO DO:
+        Walk a window of size k across ls and return a new list
+        containing the max of every window.
+
+    EXAMPLES:
+        sliding_window_max([1, 3, -1, -3, 5, 3, 6, 7], 3)
+            → [3, 3, 5, 5, 6, 7]
+
+            windows:                maxes:
+            [1,  3, -1]  → 3
+            [   3, -1, -3] → 3
+            [      -1, -3,  5] → 5
+            [         -3,  5,  3] → 5
+            [              5,  3,  6] → 6
+            [                  3,  6,  7] → 7
+
+        sliding_window_max([1, 2, 3], 1)  →  [1, 2, 3]
+        sliding_window_max([1, 2, 3], 3)  →  [3]
+        sliding_window_max([5], 1)        →  [5]
+
+    EDGE CASES — the tests check all of these:
+        • k <= 0            →  raise ValueError
+        • k > len(ls)       →  return []   (no window fits)
+        • empty ls          →  return []   (no window fits — even for k=1)
+        • list of one elem  →  [max] if k <= 1
+        • negative numbers  →  handled naturally
+
+    CONSTRAINTS:
+        • Return a NEW list. Do NOT mutate ls.
+        • Don't use a library (no numpy, no itertools). Pure Python.
+        • Naive O(n*k) is fine — an O(n) monotonic-deque version is
+          welcome as a stretch goal but not required.
+
+    HINTS:
+        • Number of windows = len(ls) - k + 1  (when k <= len(ls)).
+        • For each starting index `i` from 0 to len(ls) - k:
+              append max(ls[i : i + k])
+        • That's it. The hard part is the edges, not the loop.
+
+    COMPLEXITY:
+        Naive: O(n·k). Any solution that works will pass.
+
+    RUN THIS:  python3 -m pytest -v tests/test_h_hard.py -k sliding
+    """
+    if k <= 0:   
+        raise ValueError("k must be positive")
+    if k > len(ls):          # also covers empty ls
+        return []
+
+    maximum = []
+    for i in range(len(ls) - k + 1):
+        window = ls[i : i + k]
+        maximum.append(max(window))
+    return maximum
+        
+
+
+        
+
+
     raise NotImplementedError
 
 
